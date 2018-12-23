@@ -21,23 +21,42 @@
 
 (defui AppContainer
   (render [this {:keys [message] :as args}]
-    (ui/border-pane
-      :top (ui/h-box
-             :children [(ui/text
-                          :text (if (:in-settings? args)
-                                  "Settings"
-                                  "Welcome")
-                          :font (ui/font
-                                  :size 20))
-                        (ui/stack-pane
-                          :h-box/hgrow :always
-                          :alignment :center-right
-                          :children [(ui/hyperlink
-                                       :text (if (:in-settings? args) "Leave Settings" "Goto Settings")
-                                       :on-action {:event :toggle-settings})])])
-      :center (if (:in-settings? args)
-                (settings-pane args)
-                (main-pane args)))))
+    (if (:in-settings? args)
+      (ui/stack-pane
+        :children [(ui/border-pane
+                     :top (ui/h-box
+                            :children [(ui/text
+                                         :text (if (:in-settings? args)
+                                                 "Settings"
+                                                 "Welcome")
+                                         :font (ui/font
+                                                   :size 20))
+                                       (ui/stack-pane
+                                         :h-box/hgrow :always
+                                         :alignment :center-right
+                                         :children [(ui/hyperlink
+                                                      :text (if (:in-settings? args) "Leave Settings" "Goto Settings")
+                                                      :on-action {:event :toggle-settings})])])
+                     :center (if (:in-settings? args)
+                               (settings-pane args)
+                               (main-pane args)))])
+      (ui/border-pane
+        :top (ui/h-box
+               :children [(ui/text
+                            :text (if (:in-settings? args)
+                                    "Settings"
+                                    "Welcome")
+                            :font (ui/font
+                                    :size 20))
+                          (ui/stack-pane
+                            :h-box/hgrow :always
+                            :alignment :center-right
+                            :children [(ui/hyperlink
+                                         :text (if (:in-settings? args) "Leave Settings" "Goto Settings")
+                                         :on-action {:event :toggle-settings})])])
+        :center (if (:in-settings? args)
+                  (settings-pane args)
+                  (main-pane args))))))
 
 (defui MainStage
   (render [this args]
